@@ -5,6 +5,17 @@ export async function getTasks(req, res) {
     res.status(200).json(tasks);
 }
 
+export async function findTask(req, res) {
+    const id = req.params.id;
+    const task = await Task.findByPk(id);
+
+    if(!task){
+        return res.status(404).json("Tarefa não encontrada");
+    }
+    res.status(200).json(task);
+
+}
+
 export async function createTask(req, res){
     try{
         const task = req.body;

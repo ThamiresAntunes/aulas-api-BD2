@@ -2,7 +2,7 @@ import Task from '../model/task.js';
 
 export async function getTasks(req, res) {
     const tasks = await Task.findAll();
-    res.status(200).json(tasks);
+    return res.status(200).json(tasks);
 }
 
 export async function findTask(req, res) {
@@ -12,7 +12,7 @@ export async function findTask(req, res) {
     if(!task){
         return res.status(404).json("Tarefa não encontrada");
     }
-    res.status(200).json(task);
+    return res.status(200).json(task);
 
 }
 
@@ -24,7 +24,17 @@ export async function createTask(req, res){
     }
     catch(err){
         console.log(err);
-        res.status(400).json("Erro ao criar tarefa");
+        return res.status(400).json("Erro ao criar tarefa");
     }
-    
+}
+
+export async function deleteTask(req,res){
+    console.log("entrei aqui")
+    const id = req.params.id;
+    const task = await Task.findByPk(id);
+    if(!task){
+        return res.status(404).json("Tarefa não encontrada");
+    }
+    await task.destroy();
+    res.status(200).json(task);
 }

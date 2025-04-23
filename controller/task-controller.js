@@ -1,8 +1,18 @@
 import Task from '../model/task.js';
 
 export async function getTasks(req, res) {
-    const tasks = await Task.findAll();
-    return res.status(200).json(tasks);
+    try{
+        const tasks = await Task.findAll();
+        if(tasks != ''){
+            return res.status(200).json(tasks);
+        }
+        return res.status(404).json({Erro: "Não existe tarefas salvas no banco"});
+    }
+    catch(err){
+        console.log(err);
+        return res.status(404).json("Erro ao listar tarefas");
+    }
+
 }
 
 export async function findTask(req, res) {

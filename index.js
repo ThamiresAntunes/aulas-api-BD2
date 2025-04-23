@@ -13,5 +13,5 @@ app.patch('/task/:id', updateTask)
 const porta = 3000;
 
 app.listen(porta, () => {
-  console.log(`App esta rodando na porta ${porta}`)
+  console.log(`App esta rodando na porta ${porta}`);
 });

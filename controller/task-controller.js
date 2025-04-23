@@ -10,7 +10,7 @@ export async function getTasks(req, res) {
     }
     catch(err){
         console.log(err);
-        return res.status(404).json("Erro ao listar tarefas");
+        return res.status(400).json("Falha ao listar tarefas");
     }
 
 }
@@ -27,7 +27,7 @@ export async function findTask(req, res) {
     } 
     catch (err) {
         console.log(err);
-        return res.status(400).json("Erro ao criar tarefa");
+        return res.status(400).json("Falha ao listar a tarefa");
     }
 
 }
@@ -36,36 +36,47 @@ export async function createTask(req, res){
     try{
         const task = req.body;
         const newTask = await Task.create(task);
-        res.status(201).json(newTask);
+        return res.status(201).json(newTask);
     }
     catch(err){
         console.log(err);
-        return res.status(400).json("Erro ao criar tarefa");
+        return res.status(400).json("Falha ao criar tarefa");
     }
 }
 
 export async function updateTask(req,res){
-    const id = req.params.id;
-    const task = await Task.findByPk(id);
-    if(!task){
+    
+    try{
+        const id = req.params.id;
+        const task = await Task.findByPk(id);
+        if(task){
+            task.set(req.body);
+            await task.save();
+            return res.status(200).json(task);
+        }
         return res.status(404).json("Tarefa não encontrada");
     }
-    try{
-        task.set(req.body);
-        await task.save();
-        res.status(200).json(task);
-    }catch(err){
+    catch(err){
         console.log(err);
         res.status(400).json("Falha ao atualizar");
     }
+
 }
 
 export async function deleteTask(req,res){
-    const id = req.params.id;
-    const task = await Task.findByPk(id);
-    if(!task){
+    try{
+        const id = req.params.id;
+        const task = await Task.findByPk(id);
+
+        if(task){
+            await task.destroy();
+            res.status(200).json(task); 
+        }
         return res.status(404).json("Tarefa não encontrada");
     }
-    await task.destroy();
-    res.status(200).json(task);
+    catch(err){
+        console.log(err);
+        res.status(400).json("Falha ao deletar");
+    }
+    
 }

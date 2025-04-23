@@ -10,7 +10,7 @@ export async function getTasks(req, res) {
     }
     catch(err){
         console.log(err);
-        return res.status(400).json("Falha ao listar tarefas");
+        return res.status(400).json("Erro ao listar tarefas");
     }
 
 }
@@ -64,6 +64,7 @@ export async function updateTask(req,res){
 }
 
 export async function deleteTask(req,res){
+    
     try{
         const id = req.params.id;
         const task = await Task.findByPk(id);

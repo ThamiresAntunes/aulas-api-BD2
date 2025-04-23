@@ -16,13 +16,19 @@ export async function getTasks(req, res) {
 }
 
 export async function findTask(req, res) {
-    const id = req.params.id;
-    const task = await Task.findByPk(id);
-
-    if(!task){
-        return res.status(404).json("Tarefa não encontrada");
+    try {
+        const id = req.params.id;
+        const task = await Task.findByPk(id);
+        
+        if(!task){ //se task for false, o ! deixa true e entra
+            return res.status(404).json("Tarefa não encontrada");
+        }
+        return res.status(200).json(task);
+    } 
+    catch (err) {
+        console.log(err);
+        return res.status(400).json("Erro ao criar tarefa");
     }
-    return res.status(200).json(task);
 
 }
 

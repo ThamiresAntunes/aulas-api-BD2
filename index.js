@@ -1,14 +1,9 @@
 import express from 'express';
-import { getTasks, createTask, findTask, updateTask, deleteTask } from './controller/task-controller.js';
+import TaskRouter from './router/task-router.js';
 
 const app = express();
 app.use(express.json());
-
-app.get('/tasks', getTasks);
-app.get('/task/:id', findTask);
-app.post('/tasks', createTask);
-app.delete('/task/:id', deleteTask);
-app.patch('/task/:id', updateTask)
+app.use('/tasks', TaskRouter);
 
 const porta = 3000;
 

@@ -58,7 +58,7 @@ export async function updateTask(req,res){
     }
     catch(err){
         console.log(err);
-        res.status(400).json("Falha ao atualizar");
+        return res.status(400).json("Falha ao atualizar");
     }
 
 }
@@ -77,7 +77,7 @@ export async function deleteTask(req,res){
     }
     catch(err){
         console.log(err);
-        res.status(400).json("Falha ao deletar");
+        return res.status(400).json("Falha ao deletar");
     }
     
 }
